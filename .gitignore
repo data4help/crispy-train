@@ -1,5 +1,6 @@
 # Data
-/data/
+/data/processed/spectograms/
+/data/raw/
 
 
 # Byte-compiled / optimized / DLL files

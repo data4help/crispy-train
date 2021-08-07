@@ -1,20 +1,21 @@
-
 # %% Packages
 
+from ast import literal_eval as make_tuple
 import numpy as np
+from numpy.core.fromnumeric import shape
 from tensorflow.keras import Model, layers
 
 # %% Code
 
-class CreateDecoder:
 
+class CreateDecoder:
     def __init__(
         self, input_shape, conv_filters, conv_kernels, conv_strides, latent_space_dim
     ):
         self.input_shape = input_shape
         self.conv_filters = conv_filters
-        self.conv_kernels = conv_kernels
-        self.conv_strides = conv_strides
+        self.conv_kernels = [make_tuple(x) for x in conv_kernels]
+        self.conv_strides = [make_tuple(x) for x in conv_strides]
         self.latent_space_dim = latent_space_dim
 
         self.model = None
@@ -37,11 +38,21 @@ class CreateDecoder:
     def _add_decoder_input(self):
         return layers.Input(shape=self.latent_space_dim, name="decoder_input")
 
+    def _calculate_input_size(self, input_size, number_of_iteration, position):
+        conv_strides_tuple = self.conv_strides[number_of_iteration]
+        conv_strides_number = conv_strides_tuple[position]
+        input_size = int(input_size / conv_strides_number)
+        return input_size
+
     def _conv_arithmetic(self):
-        input_size = self.input_shape[0]
+        input_width = self.input_shape[0]
+        input_height = self.input_shape[1]
+
         for i in range(len(self.conv_filters)):
-            input_size = int((input_size/self.conv_strides[i]))
-        shape_before_bottleneck = [input_size, input_size, self.conv_filters[-1]]
+            input_width = self._calculate_input_size(input_width, i, 0)
+            input_height = self._calculate_input_size(input_height, i, 1)
+
+        shape_before_bottleneck = [input_width, input_height, self.conv_filters[-1]]
         return shape_before_bottleneck
 
     def _add_dense_layer(self, decoder_input):
@@ -67,7 +78,7 @@ class CreateDecoder:
             kernel_size=self.conv_kernels[layer_index],
             strides=self.conv_strides[layer_index],
             padding="same",
-            name=f"decoder_conv_transpose_layer_{layer_num}"
+            name=f"decoder_conv_transpose_layer_{layer_num}",
         )
         x = conv_transpose_layer(x)
         x = layers.ReLU(name=f"decoder_relu_{layer_num}")(x)
@@ -80,7 +91,7 @@ class CreateDecoder:
             kernel_size=self.conv_kernels[0],
             strides=self.conv_strides[0],
             padding="same",
-            name=f"decoder_conv_transpose_layer_{self._num_conv_layers}"
+            name=f"decoder_conv_transpose_layer_{self._num_conv_layers}",
         )
         x = conv_transpose_layer(x)
         output_layer = layers.Activation("sigmoid", name="sigmoid_layer")(x)

@@ -1,6 +1,6 @@
-
 # %% Packages
 
+from ast import literal_eval as make_tuple
 from tensorflow.keras import Model, layers
 import tensorflow as tf
 from tensorflow.keras import backend as K
@@ -11,15 +11,15 @@ tf.compat.v1.disable_eager_execution()
 
 # %% Code
 
-class CreateEncoder:
 
+class CreateEncoder:
     def __init__(
         self, input_shape, conv_filters, conv_kernels, conv_strides, latent_space_dim
     ):
         self.input_shape = input_shape
         self.conv_filters = conv_filters
-        self.conv_kernels = conv_kernels
-        self.conv_strides = conv_strides
+        self.conv_kernels = [make_tuple(x) for x in conv_kernels]
+        self.conv_strides = [make_tuple(x) for x in conv_strides]
         self.latent_space_dim = latent_space_dim
         self.reconstruction_loss_weight = 1_000
 
@@ -56,7 +56,7 @@ class CreateEncoder:
             kernel_size=self.conv_kernels[layer_index],
             strides=self.conv_strides[layer_index],
             padding="same",
-            name=f"encoder_conv_layer_{layer_number}"
+            name=f"encoder_conv_layer_{layer_number}",
         )
         x = conv_layer(x)
         x = layers.ReLU(name=f"encoder_relu_{layer_number}")(x)
@@ -77,6 +77,6 @@ class CreateEncoder:
         self.log_variance = layers.Dense(self.latent_space_dim, name="log_variance")(x)
 
         x = layers.Lambda(
-            function=self._sample_normal_distribution,
-            name="encoder_output")([self.mu, self.log_variance])
+            function=self._sample_normal_distribution, name="encoder_output"
+        )([self.mu, self.log_variance])
         return x

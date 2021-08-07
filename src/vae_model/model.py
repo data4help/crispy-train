@@ -1,34 +1,46 @@
-
 # %% Packages
 
+import numpy as np
+from tqdm import tqdm
 import tensorflow as tf
-from tensorflow.keras import models
 from tensorflow.keras import backend as K
 from vae_model.decoder import CreateDecoder
 from vae_model.encoder import CreateEncoder
+from tensorflow.python.keras.engine.functional import Functional
 
 # %% Code
 
 
 class VAE:
-
     def __init__(self, config):
         self.config = config
 
         self.encoder = CreateEncoder(**self.config.get("network"))
         self.decoder = CreateDecoder(**self.config.get("network"))
-        self.reconstruction_loss_weight = 1_000
+        self.reconstruction_loss_weight = self.config.parameters.reconstruction_loss_weight
         self.model = self._build_and_compile_model()
 
-    def reconstruct(self, images, model):
+    @classmethod
+    def reconstruct(self, data: np.array, model: Functional) -> np.array:
 
         # With a Keras function
         encoder = K.function(model.layers[0].input, model.layers[1].output)
         decoder = K.function(model.layers[2].input, model.layers[2].output)
 
-        latent_representation = encoder(images)
-        reconstructed_images = decoder(latent_representation)
-        return reconstructed_images, latent_representation
+        all_latent_representation = []
+        all_reconstructed_images = []
+        for image in tqdm(data):
+            image = image[np.newaxis, ...]
+            latent_representation = encoder(image)
+            reconstructed_images = decoder(latent_representation)
+
+            all_latent_representation.append(latent_representation)
+            all_reconstructed_images.append(reconstructed_images)
+
+        array_latent_representation = np.concatenate(np.array(all_latent_representation))
+        array_reconstructed_images = np.concatenate(np.array(all_reconstructed_images))
+
+        return array_reconstructed_images, array_latent_representation
 
     def _build_and_compile_model(self):
         model = self._build_model()
@@ -56,7 +68,9 @@ class VAE:
     def _calculated_KL_loss(self, y_target, y_predicted):
         log_variance = self.encoder.log_variance
         mu = self.encoder.mu
-        kl_loss = -0.5 * K.sum(1 + log_variance - K.square(mu) - K.exp(log_variance), axis=1)
+        kl_loss = -0.5 * K.sum(
+            1 + log_variance - K.square(mu) - K.exp(log_variance), axis=1
+        )
         return kl_loss
 
     def _calculate_combined_loss(self, y_target, y_predicted):
