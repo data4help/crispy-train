@@ -8,7 +8,7 @@ sys.path.insert(0, "./src")
 import pickle
 from pyhocon import ConfigTree
 import streamlit as st
-from src.tasks.ml.sound_generator_task import SoundGeneratorTask
+from src.tasks.generator.sound_generator_task import SoundGeneratorTask
 
 # %% Pathing
 

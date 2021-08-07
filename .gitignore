@@ -1,7 +1,7 @@
 # Data
-/data/processed/spectograms/
-/data/raw/
-
+/data/sound/processed/spectograms/
+/data/sound/raw/
+/data/images/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
