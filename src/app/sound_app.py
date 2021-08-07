@@ -37,7 +37,7 @@ st.title("Sound generation using a Variational Autoencoder")
 c1, c2 = st.columns((2, 2))
 
 # Left-Upper
-c1.header("Scatterplot")
+c1.header("Latent representation")
 with c1:
     st.image(f"{file_path}/scatterplot.png")
 
