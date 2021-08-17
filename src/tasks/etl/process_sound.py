@@ -129,6 +129,19 @@ class PreprocessSound(MLTask):
         stft = librosa.stft(signal, n_fft=self.frame_size, hop_length=self.hop_length)[:-1]
         spectogram = np.abs(stft)
         log_spectogram = librosa.amplitude_to_db(spectogram)
+    
+        import soundfile as sf
+        sf.write("./reports/figures/sound_vae/example.wav", signal, samplerate=22050)
+        import matplotlib.pyplot as plt
+        import librosa.display
+        fig, axs = plt.subplots(figsize=(10, 10))
+        a = librosa.display.specshow(log_spectogram, hop_length=256, x_axis="time", y_axis="linear")
+        axs.set_xlabel("Time")
+        axs.set_ylabel("Frequency")
+        axs.tick_params(axis="x", labelrotation=45)
+        fig.colorbar(a, format="%+2.f dB")
+        fig.savefig(fname="./reports/figures/sound_vae/spectogram_example.png", bbox_inches="tight")
+        
         return log_spectogram
 
     def _normalize(self, array: np.array) -> np.array:
