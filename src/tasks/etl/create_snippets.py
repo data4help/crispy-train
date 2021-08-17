@@ -22,7 +22,7 @@ class CreateSoundSnippets(MLTask):
     def run(self):
 
         # Delete existing files and create necessary folders
-        self.prepare_dirs()
+        self.clear_output_path()
 
         # Chop the long sound-track
         self.chopping_sound()
@@ -33,21 +33,20 @@ class CreateSoundSnippets(MLTask):
         saved as a wav file itself. To keep better track, an intuitive
         naming system is used. Through that the files are staying ordered.
         """
+        input_path = self.paths.get_string("input_path")
+        output_path = self.paths.get_string("output_path")
         chunk_length_ms = self.parameters.get_int("chunk_length_ms")
 
-        self.categories = self.detect_categories()
-        for category in self.categories:
-            category_path = os.path.join(self.paths.input_path, category)
+        mix_files = [x for x in os.listdir(input_path) if x.endswith(".wav")]
+        for file in mix_files:
+            file_path = os.path.join(input_path, file)
+            myaudio = AudioSegment.from_file(file_path, "wav")
+            chunks = make_chunks(myaudio, chunk_length_ms)
+            number_of_digits_of_length = len(str(len(chunks)))
+            category_name = file.split("_mix")[0]
 
-            for root, _, file in os.walk(category_path):
-                file_name = [x for x in file if not x.startswith(".")]
-                audio_path = os.path.join(root, file_name[0])
-                myaudio = AudioSegment.from_file(audio_path, "wav")
-                chunks = make_chunks(myaudio, chunk_length_ms)
-                number_of_digits_of_length = len(str(len(chunks)))
-
-                for i, chunk in tqdm(enumerate(chunks)):
-                    padding = number_of_digits_of_length - len(str(i))
-                    chunk_name = f"{category}_{padding*'0'}{str(i)}.wav"
-                    full_chunk_path = os.path.join(f"{self.paths.output_path}/{category}", chunk_name)
-                    chunk.export(full_chunk_path, format="wav")
+            for i, chunk in tqdm(enumerate(chunks)):
+                padding = number_of_digits_of_length - len(str(i))
+                chunk_name = f"{category_name}_{padding*'0'}{str(i)}.wav"
+                file_output_path = os.path.join(output_path, chunk_name)
+                chunk.export(file_output_path, format="wav")

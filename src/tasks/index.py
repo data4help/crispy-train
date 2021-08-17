@@ -1,10 +1,13 @@
+
 from tasks.ml.sound_task import SoundVAETask
-from tasks.ml.sound_generator_task import SoundGeneratorTask
+from tasks.ml.image_task import ImageVAETask
+from tasks.etl.augment_images import AugmentImages
 from tasks.etl.create_snippets import CreateSoundSnippets
 from tasks.etl.process_sound import PreprocessSound
 
 tasks = [
-    SoundGeneratorTask, SoundVAETask, CreateSoundSnippets, PreprocessSound,
+    SoundVAETask, CreateSoundSnippets, PreprocessSound,
+    ImageVAETask, AugmentImages
 ]
 task_index = {}
 

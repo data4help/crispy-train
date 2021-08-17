@@ -2,7 +2,6 @@
 
 from ast import literal_eval as make_tuple
 import numpy as np
-from numpy.core.fromnumeric import shape
 from tensorflow.keras import Model, layers
 
 # %% Code

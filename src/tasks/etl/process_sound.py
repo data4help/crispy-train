@@ -36,18 +36,21 @@ class PreprocessSound(MLTask):
     def run(self):
 
         # Clean folders from all potentially existing files
-        # self.prepare_dirs()
+        self.clear_output_path()
 
         # Create spectogram features and min max values
-        categories = self.detect_categories()
-        for category in categories:
-            full_folder_path = os.path.join(self.input_path, category)
-            for file in tqdm(os.listdir(full_folder_path)):
-                file_path = os.path.join(full_folder_path, file)
-                self.process_file(file_path)
+        file_names = [x for x in os.listdir(self.input_path) if not x.startswith(".")]
+        for file in tqdm(file_names):
+            file_path = os.path.join(self.input_path, file)
+            self.process_file(file_path)
         self.save_min_max_values(self.min_max_values)
 
     def process_file(self, file_path: str) -> None:
+        """This method calls all the necessary steps to create the necessary features out of the raw sound snippet.
+
+        :param file_path: The file path at which the sound snippet is saved
+        :type file_path: str
+        """
         signal = self._loader(file_path)
         if self._is_padding_necessary(signal):
             signal = self._apply_padding(signal)
@@ -58,22 +61,39 @@ class PreprocessSound(MLTask):
             self._store_min_max_value(file_name, feature.min(), feature.max())
 
     def save_min_max_values(self, min_max_values: dict) -> None:
+        """This method saves the dictionary in which the minimum and maximum value of each sound snippet was saved.
+        This dictionary is key when re-creating the sound snippets.
+
+        :param min_max_values: Dictionary in which the min and max value of each sound snippet is saved
+        :type min_max_values: dict
+        """
         save_path = os.path.join(self.min_max_value_dir, "min_max_values.pkl")
         with open(save_path, "wb") as f:
             pickle.dump(min_max_values, f)
 
-    def create_folders(self) -> None:
-        for folder in os.listdir(self.audio_dir):
-            full_folder_path = os.path.join(self.features_dir, folder)
-            self._create_potentially_missing_folder(full_folder_path)
-
     def _no_nan(self, feature: np.array) -> bool:
+        """This method checks whether there are nan values present in the sound files. If that is the case, the file will not be saved since
+        it would lead to an error.
+
+        :param feature: The spectogram created out of an sound snippet
+        :type feature: np.array
+        :return: Boolean indicating whether a nan value is present
+        :rtype: bool
+        """
         if not np.any(np.isnan(feature)):
             return True
         else:
             return False
 
     def _is_padding_necessary(self, signal: np.array) -> bool:
+        """This method checks whether the sound file needs padding. This is necessary when a sound-file does not have the expected length.
+        In that case we pad zeros to the left side of the sound file.
+
+        :param signal: Sound signal
+        :type signal: np.array
+        :return: Boolean whether there is padding necessary
+        :rtype: bool
+        """
         if len(signal) < self.number_expected_samples:
             return True
         else:
@@ -93,8 +113,7 @@ class PreprocessSound(MLTask):
     def _save_feature(self, feature: np.array, file_path: str) -> str:
         file_name_w_extension = os.path.split(file_path)[1]
         file_name = file_name_w_extension.split(".")[0]
-        category = file_name.split("_")[0]
-        save_path = os.path.join(self.output_path, category, f"{file_name}.npy")
+        save_path = os.path.join(self.output_path, f"{file_name}.npy")
         np.save(save_path, feature)
         return file_name
 
