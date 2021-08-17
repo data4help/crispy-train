@@ -1,7 +1,10 @@
 # Data
 /data/sound/processed/spectograms/
 /data/sound/raw/
-/data/image/
+/data/image/augmented/
+/data/image/augmented/
+/data/image/augmented/
+/data/image/original/
 /logs/
 
 # Byte-compiled / optimized / DLL files
