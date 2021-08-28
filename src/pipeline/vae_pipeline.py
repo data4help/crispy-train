@@ -161,7 +161,7 @@ class VAEPipeline(PipelineModel):
         """
 
         number_of_example_images = self.parameters.get_int("evaluation_examples")
-        fname = os.path.join(self.image_path, self.name, "reconstructed_image.png")
+        fname = os.path.join(self.paths.get_string("images_path"), self.name, "reconstructed_image.png")
 
         sample_real_images = data[:number_of_example_images]
         sample_real_labels = labels[:number_of_example_images]

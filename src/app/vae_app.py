@@ -42,9 +42,9 @@ vae_type = "image"
 image_decoder = load_decoder(vae_type)
 latent_representations = load_latent_representation(vae_type, label=False)
 
-# %% Image-Page: Constants
+# %% Constants
 
-max_absolute_value = np.ceil(np.abs(np.max(latent_representations)))
+max_absolute_value = np.ceil(np.abs(np.max(latent_representations)/2))
 min_value = -max_absolute_value.astype(float)
 max_value = max_absolute_value.astype(float)
 value = 0.0

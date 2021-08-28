@@ -12,7 +12,7 @@
             "program": "./src/main.py",
             "args": [
                 "--config", "./src/config.conf",
-                "--task", "process_sound",
+                "--task", "image_vae",
             ],
             "console": "integratedTerminal"
         }
