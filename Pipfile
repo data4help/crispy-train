@@ -163,10 +163,6 @@ SoundFile = "==0.10.3.post1"
 Werkzeug = "==2.0.1"
 
 [dev-packages]
-libgtk2.0-dev
-libasound2-dev
-libsndfile1-dev
-ffmpeg
 
 [requires]
 python_version = "3.7"
