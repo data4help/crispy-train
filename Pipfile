@@ -163,7 +163,6 @@ SoundFile = "==0.10.3.post1"
 Werkzeug = "==2.0.1"
 
 [dev-packages]
-libsndfile1-dev
 
 [requires]
 python_version = "3.7"
