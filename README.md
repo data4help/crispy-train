@@ -12,7 +12,10 @@ Sounds data is obtained by downloading large muciv
 
 How Variational Autoencoder work is summarized and explained with the related blog-post on my website.
 
+
 ## Preview
+
+The entire application is to be found [here](https://share.streamlit.io/data4help/crispy-train/src/app/vae_app.py).
 
 ### Image Preview
 
