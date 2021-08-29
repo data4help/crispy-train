@@ -15,10 +15,10 @@ How Variational Autoencoder work is summarized and explained with the related bl
 ## Preview
 
 Image Preview
-<img src="https://github.com/data4help/crispy-train/tree/master/reports/gif/image.gif" width="250"/>
+![](./reports/gif/image.gif)
 
 Sound Preview
-<img src="https://github.com/data4help/crispy-train/tree/master/reports/gif/sound.gif" width="250"/>
+![](./reports/gif/sound.gif)
 
 ## Contribution
 
