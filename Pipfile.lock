@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8b77d0b917d280a33ccd4b6d9aa3b45a025db99e845903046d4f494f4c901d87"
+            "sha256": "b5b7eb351b4346f1b9f8e0ffc903d9b7e29e46a211434f3a1dd998dfdc942e1b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -667,12 +667,6 @@
             ],
             "index": "pypi",
             "version": "==1.0.0"
-        },
-        "keras": {
-            "hashes": [
-                "sha256:504af5656a9829fe803ce48a8580ef16916e89906aceddad9e098614269437e7"
-            ],
-            "version": "==2.6.0"
         },
         "keras-preprocessing": {
             "hashes": [
@@ -1737,24 +1731,6 @@
             ],
             "index": "pypi",
             "version": "==1.8.0"
-        },
-        "tensorflow": {
-            "hashes": [
-                "sha256:00b1af0a0c5c102db19caceffac4bd4e6c536e6d7512144c241a4ace4428e7c6",
-                "sha256:2a067d22a356c2cd4753bdd16ee492c55a610f5ebc52713e2954c642f070321c",
-                "sha256:2c9b8c6adc060acfcf805a2ea501db0124b679d95b522fd5983a4c110e8e0264",
-                "sha256:4716c9b25a61a2c79b1f253d1e114f1f8679241559c13ad18c657c626a7d5924",
-                "sha256:6e38b6969414d16afc560c58ca34e1328cc0a5dbd644b64e060f5be8a6653274",
-                "sha256:8b5ce09ede0fe45ef100f4dc65cf3f46722194e75139f85d524058315e2ce9fa",
-                "sha256:bc73ebdd30c48cfc27ba307271117e6dbb795b37396ed817b2fec9393380b115",
-                "sha256:bfb255c2b0400bc5b4060dda098d46cd7ddeb53b7cbac1dfa29435612cba828c",
-                "sha256:c67fad296a3a2133b7a14da5f06c9937e7911b02c5d7a3ff6ba52a1d79b6bc9e",
-                "sha256:d6468e05552720100e8f94097feb770de320e4c8c244323a8746bd84e5ba4052",
-                "sha256:dea97f664246e185d79cbe40a86309527affd4232f06afa8a6500c4fc4b64a03",
-                "sha256:e45e026a9d08c89cecc1160d8248135e2fb79bdc3267328399e1fb25ce583bd6"
-            ],
-            "index": "pypi",
-            "version": "==2.6.0"
         },
         "tensorflow-estimator": {
             "hashes": [
