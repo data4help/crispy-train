@@ -4,9 +4,13 @@
 
 This project applies Variational Autoencoder to produce new images and sounds.
 
-Images are created using bottles designs
+The VAE for image data is fed with botte design images. Therefore the generative model is creating new
+bottles designs which can be adjusted by changing the two latent representations with which the model
+was trained.
 
-Sounds data is obtained by downloading large muciv
+The sound data is trained with three music genres, namely Techno, Rock and Piano music. This is done
+by splitting hour-long remixes of these three genres into small ~1 second long snippets. The generative 
+part of the model allows us then to creating new sound snippets which come from one of these three genres.
 
 ## Post
 
