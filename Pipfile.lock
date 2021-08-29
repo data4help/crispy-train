@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "2b29872ecebe1963b8b25a25bf731be2405586e1b49dc88bc696856f0f117f0d"
+            "sha256": "b52ecdb14d121a92dd189aa518ffa9c9b36f6fde31c497d5c107b3bc68ef46c4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -672,6 +672,7 @@
             "hashes": [
                 "sha256:504af5656a9829fe803ce48a8580ef16916e89906aceddad9e098614269437e7"
             ],
+            "index": "pypi",
             "version": "==2.6.0"
         },
         "keras-nightly": {
