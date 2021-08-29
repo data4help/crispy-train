@@ -15,10 +15,10 @@ How Variational Autoencoder work is summarized and explained with the related bl
 ## Preview
 
 Image Preview
-![](./reports/gif/image.gif)
+![Image Preview](./reports/gif/image.gif)
 
 Sound Preview
-![](./reports/gif/sound.gif)
+![Sound Preview](./reports/gif/sound.gif)
 
 ## Contribution
 
